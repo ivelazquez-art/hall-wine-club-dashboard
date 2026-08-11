@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#8f1d2c" />
+    <meta name="description" content="Daily checklist launcher for HALL Saint Helena employees." />
+    <title>Daily Checklists | HALL Saint Helena</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <main class="page-shell">
+      <header class="hero">
+        <img
+          class="hall-logo"
+          src="https://hallwines.com/cdn/shop/files/HallWines_Logo-Color.svg?v=1773837369&width=600"
+          alt="HALL Family Wines"
+        />
+        <div>
+          <p class="eyebrow">VCSH shift resources</p>
+          <h1>Daily Checklists</h1>
+          <p class="hero-copy">Choose your department and assigned area. Each checklist opens securely in Microsoft Forms.</p>
+        </div>
+      </header>
+
+      <section class="shift-note" aria-label="Checklist reminder">
+        <div class="note-mark" aria-hidden="true">✓</div>
+        <div>
+          <strong>Finish the checklist for the position you worked.</strong>
+          <span>Confirm the form was submitted before closing the Microsoft Forms tab.</span>
+        </div>
+        <p id="today"></p>
+      </section>
+
+      <section class="projects-panel" aria-labelledby="projects-title">
+        <div class="projects-heading">
+          <div>
+            <p class="eyebrow">Team priorities</p>
+            <h2 id="projects-title">Special Projects</h2>
+            <p>Current projects can update automatically from one shared Google Sheet.</p>
+          </div>
+          <a class="completion-button is-disabled" id="completion-button" href="#" aria-disabled="true">Submit a completed project</a>
+        </div>
+        <div class="project-status" id="project-status" role="status"></div>
+        <div class="project-grid" id="project-grid"></div>
+      </section>
+
+      <nav class="department-filters" id="department-filters" aria-label="Filter checklist departments"></nav>
+
+      <section class="checklist-sections" id="checklist-sections" aria-live="polite"></section>
+
+      <section class="help-panel" aria-labelledby="help-title">
+        <div>
+          <p class="eyebrow">Before asking for help</p>
+          <h2 id="help-title">If a form will not open</h2>
+        </div>
+        <ol>
+          <li>Confirm you are signed into the correct Microsoft account.</li>
+          <li>Refresh the form once and check your internet connection.</li>
+          <li>Try the link again from this checklist page.</li>
+          <li>Tell a manager which exact checklist is affected.</li>
+        </ol>
+      </section>
+
+      <section class="vineyard-game" aria-labelledby="game-title">
+        <div class="game-intro">
+          <p class="eyebrow">On break?</p>
+          <h2 id="game-title">Bunny Foo Foo’s Vineyard Dash</h2>
+          <p>Help Bunny dash through the vineyard. Tap the game, click, or press Space to jump over barrels and vineyard crates.</p>
+          <button class="game-button" id="game-button" type="button">Start game</button>
+        </div>
+        <div class="game-wrap" id="game-wrap" tabindex="0" aria-label="Bunny Foo Foo vineyard obstacle jumping game">
+          <div class="game-sky">
+            <span>Distance: <strong id="game-score">0</strong></span>
+            <span id="game-message">Bunny is ready!</span>
+          </div>
+          <div class="game-field" id="game-field">
+            <div class="bunny-player" id="bunny-player">
+              <img src="bunny-foo-foo-transparent.png" alt="" />
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>Internal employee resource • Forms open in a new tab</p>
+      <p>No passwords or customer information stored here</p>
+    </footer>
+  </body>
+</html>
