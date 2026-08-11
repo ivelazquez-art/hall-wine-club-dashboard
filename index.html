@@ -4,32 +4,126 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#8f1d2c" />
-    <meta
-      name="description"
-      content="Q3 Wine Club important dates for HALL Saint Helena employees."
-    />
-    <title>Q3 Wine Club Important Dates | HALL Saint Helena</title>
+    <meta name="description" content="HALL Saint Helena employee homepage dashboard." />
+    <title>Today at HALL Saint Helena</title>
     <link rel="stylesheet" href="styles.css" />
     <script src="script.js" defer></script>
   </head>
-  <body>
-    <main id="main-content" class="dashboard">
-      <section class="intro" aria-labelledby="page-title">
-        <div>
-          <h1 id="page-title"></h1>
-          <p class="intro-copy" id="intro-copy"></p>
+  <body class="is-locked">
+    <section class="pin-lock" id="pin-lock" aria-labelledby="pin-title">
+      <div class="pin-card">
+        <img
+          class="pin-logo"
+          src="https://hallwines.com/cdn/shop/files/HallWines_Logo-Color.svg?v=1773837369&width=600"
+          alt="HALL Family Wines"
+        />
+        <p class="section-kicker">Employee dashboard</p>
+        <h1 id="pin-title">Welcome to HALL</h1>
+        <p class="pin-copy">Enter the staff PIN to continue.</p>
+        <form class="pin-form" id="pin-form">
+          <label for="pin-input">Staff PIN</label>
+          <input id="pin-input" name="pin" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="off" required />
+          <button type="submit">Unlock dashboard</button>
+          <p class="pin-error" id="pin-error" role="alert" aria-live="polite"></p>
+        </form>
+        <p class="pin-note">For internal convenience only. Do not store confidential information on this site.</p>
+      </div>
+    </section>
+
+    <main class="dashboard">
+      <section class="welcome" aria-labelledby="page-title">
+        <div class="welcome-main">
+          <img
+            class="hall-logo"
+            src="https://hallwines.com/cdn/shop/files/HallWines_Logo-Color.svg?v=1773837369&width=600"
+            alt="HALL Family Wines"
+          />
+          <p class="date-line" id="today"></p>
+          <h1 id="page-title">Today at HALL</h1>
+          <p class="welcome-copy">Your starting point for the shift.</p>
         </div>
-        <p class="today" id="today" aria-live="polite"></p>
+        <p class="refresh-note" id="refresh-note" aria-live="polite"></p>
       </section>
 
-      <section class="next-date" id="next-date" aria-labelledby="next-date-title"></section>
+      <section class="priority" id="priority" aria-labelledby="priority-title"></section>
 
-      <div class="section-grid" id="section-grid"></div>
+      <section class="summary" aria-label="Today's wine club summary">
+        <article class="summary-card">
+          <span class="summary-value" id="open-count">—</span>
+          <span class="summary-label">Open windows</span>
+        </article>
+        <article class="summary-card">
+          <span class="summary-value" id="upcoming-count">—</span>
+          <span class="summary-label">Upcoming dates</span>
+        </article>
+        <article class="summary-card summary-card-wide">
+          <span class="summary-value summary-value-small" id="next-date-summary">Checking dates…</span>
+          <span class="summary-label">Next deadline</span>
+        </article>
+      </section>
+
+      <aside class="bunny-panel bunny-feature" aria-labelledby="bunny-title">
+        <img
+          class="bunny"
+          src="bunny-foo-foo.png"
+          alt="Bunny Foo Foo leaping"
+        />
+        <div class="bunny-copy">
+          <p class="section-kicker">A little shift companion</p>
+          <h2 id="bunny-title">Bunny Foo Foo Says…</h2>
+          <p class="bunny-message" id="bunny-message"></p>
+        </div>
+        <button class="bunny-button" id="bunny-button" type="button">Another message</button>
+      </aside>
+
+      <section class="content-section" aria-labelledby="quick-links-title">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">Employee tools</p>
+            <h2 id="quick-links-title">Quick Links</h2>
+          </div>
+          <p>Open frequently used resources in a new tab.</p>
+        </div>
+        <div class="quick-links" id="quick-links"></div>
+      </section>
+
+      <section class="health-panel" aria-labelledby="health-title">
+          <div class="panel-heading">
+            <div>
+              <p class="section-kicker">Before troubleshooting</p>
+              <h2 id="health-title">System Health</h2>
+            </div>
+            <span class="health-updated" id="health-updated"></span>
+          </div>
+          <div class="health-list">
+            <a class="health-row" href="https://www.shopifystatus.com/" target="_blank" rel="noopener noreferrer">
+              <span>
+                <strong>Shopify</strong>
+                <small id="shopify-detail">Checking official status…</small>
+              </span>
+              <span class="health-badge health-checking" id="shopify-status">Checking</span>
+            </a>
+            <a class="health-row" href="https://status.salesforce.com/" target="_blank" rel="noopener noreferrer">
+              <span>
+                <strong>Salesforce</strong>
+                <small>HALL instance: hall.salesforce.com</small>
+              </span>
+              <span class="health-badge health-link">View status ↗</span>
+            </a>
+            <a class="health-row" href="https://status.cloud.microsoft/" target="_blank" rel="noopener noreferrer">
+              <span>
+                <strong>Microsoft 365</strong>
+                <small>Public status; administrators can see organization health.</small>
+              </span>
+              <span class="health-badge health-link">View status ↗</span>
+            </a>
+          </div>
+      </section>
     </main>
 
-    <footer class="site-footer">
-      <p id="footer-note"></p>
+    <footer class="footer">
       <p>Internal reference • No customer data</p>
+      <p>Dates refresh automatically from Google Sheets.</p>
     </footer>
   </body>
 </html>
