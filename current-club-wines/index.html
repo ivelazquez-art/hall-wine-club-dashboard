@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#8f1d2c" />
+    <meta name="description" content="Current Club Wines reference for HALL Saint Helena employees." />
+    <title>Current Club Wines | HALL Saint Helena</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <main class="page-shell">
+      <header class="hero">
+        <img
+          class="hall-logo"
+          src="https://hallwines.com/cdn/shop/files/HallWines_Logo-Color.svg?v=1773837369&width=600"
+          alt="HALL Family Wines"
+        />
+        <div class="hero-copy">
+          <p class="eyebrow">Employee wine reference</p>
+          <h1>Current Club Wines</h1>
+          <p>Find allocations, member bottles, and available technical sheets without digging through long lists.</p>
+        </div>
+      </header>
+
+      <section class="toolbar" aria-label="Wine club filters">
+        <div class="filter-group" id="brand-filters" aria-label="Filter by brand"></div>
+        <div class="toolbar-actions">
+          <button id="expand-all" type="button">Expand all</button>
+          <button id="collapse-all" type="button">Collapse all</button>
+        </div>
+      </section>
+
+      <section class="results-heading" aria-live="polite">
+        <div>
+          <p class="eyebrow">Current allocations</p>
+          <h2>Club Programs</h2>
+        </div>
+        <p id="result-status" aria-live="polite"></p>
+      </section>
+
+      <section class="club-list" id="club-list"></section>
+
+      <section class="rules" aria-labelledby="rules-title">
+        <div class="rules-heading">
+          <p class="eyebrow">Member bottle reminders</p>
+          <h2 id="rules-title">Anniversary, Milestone &amp; Referral</h2>
+        </div>
+        <div class="rule-grid" id="rule-grid"></div>
+      </section>
+    </main>
+
+    <footer>
+      <p>Internal employee reference • No customer data</p>
+      <p>Current club wine content</p>
+    </footer>
+  </body>
+</html>
