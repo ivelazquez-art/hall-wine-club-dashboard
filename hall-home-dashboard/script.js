@@ -16,32 +16,8 @@ const HOME_DATA = {
    * Leave url blank until the link is verified. Blank links appear as
    * “Link needed” and cannot be clicked.
    */
-  quickLinkGroups: ["Wine Club Information", "Checklists & SOPs", "Employee System Links"],
+  quickLinkGroups: ["Employee System Links"],
   quickLinks: [
-    {
-      name: "Wine Club Wines",
-      description: "Current allocations, selling notes, and technical sheets.",
-      url: "https://ivelazquez-art.github.io/hall-wine-club-dashboard/current-club-wines/",
-      group: "Wine Club Information",
-    },
-    {
-      name: "Wine Club Important Dates",
-      description: "Current customization windows, batches, and deadlines.",
-      url: "https://ivelazquez-art.github.io/hall-wine-club-dashboard/",
-      group: "Wine Club Information",
-    },
-    {
-      name: "Daily Checklists",
-      description: "Open the Microsoft Forms checklist for your assigned area.",
-      url: "https://ivelazquez-art.github.io/hall-wine-club-dashboard/checklists-dashboard/",
-      group: "Checklists & SOPs",
-    },
-    {
-      name: "SOPs & Training",
-      description: "Find current procedures, training, and support resources.",
-      url: "https://sites.google.com/view/hall-vcsh/sops",
-      group: "Checklists & SOPs",
-    },
     {
       name: "Relay Radios",
       description: "Open the Relay dashboard for radio communication and device support.",
