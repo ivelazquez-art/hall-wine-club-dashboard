@@ -215,6 +215,7 @@ const gameButton = document.querySelector("#game-button");
 const gameWrap = document.querySelector("#game-wrap");
 const gameMessage = document.querySelector("#game-message");
 const gameScore = document.querySelector("#game-score");
+const jumpButton = document.querySelector("#jump-button");
 let gameRunning = false, score = 0, obstacleTimer, scoreTimer, jumping = false;
 
 function jumpBunny() {
@@ -228,9 +229,13 @@ function sendObstacle() {
   if (!gameRunning) return;
   const obstacle = document.createElement("span");
   const isCrate = Math.random() > .56;
+  const portraitMobile = window.matchMedia("(max-width: 560px) and (orientation: portrait)").matches;
   obstacle.className = `vineyard-obstacle ${isCrate ? "crate" : "barrel"}`;
   obstacle.setAttribute("aria-hidden", "true");
-  obstacle.style.setProperty("--run-time", `${2.35 - Math.min(score, 40) * .018}s`);
+  const runTime = portraitMobile
+    ? 3.2 - Math.min(score, 40) * .012
+    : 2.35 - Math.min(score, 40) * .018;
+  obstacle.style.setProperty("--run-time", `${runTime}s`);
   gameField.appendChild(obstacle);
   const collisionCheck = window.setInterval(() => {
     const obstacleRect = obstacle.getBoundingClientRect();
@@ -238,7 +243,7 @@ function sendObstacle() {
     const horizontalHit = obstacleRect.left < bunnyRect.right - 38 && obstacleRect.right > bunnyRect.left + 38;
     const bunnyFeetTop = bunnyRect.bottom - 52;
     const verticalHit = obstacleRect.bottom > bunnyFeetTop && obstacleRect.top < bunnyRect.bottom - 8;
-    if (horizontalHit && verticalHit) {
+    if (horizontalHit && verticalHit && !jumping) {
       window.clearInterval(collisionCheck);
       bunnyPlayer.classList.add("bonked");
       window.setTimeout(() => bunnyPlayer.classList.remove("bonked"), 450);
@@ -272,6 +277,10 @@ gameButton.addEventListener("click", (event) => {
 });
 
 gameField.addEventListener("pointerdown", jumpBunny);
+jumpButton.addEventListener("click", () => {
+  jumpBunny();
+  gameWrap.focus();
+});
 
 document.addEventListener("keydown", (event) => {
   if (!gameRunning || ![" ", "ArrowUp"].includes(event.key)) return;
