@@ -9,7 +9,27 @@
     <link rel="stylesheet" href="styles.css" />
     <script src="script.js" defer></script>
   </head>
-  <body>
+  <body class="is-locked">
+    <section class="pin-lock" id="pin-lock" aria-labelledby="pin-title">
+      <div class="pin-card">
+        <img
+          class="pin-logo"
+          src="https://hallwines.com/cdn/shop/files/HallWines_Logo-Color.svg?v=1773837369&width=600"
+          alt="HALL Family Wines"
+        />
+        <p class="section-kicker">Employee dashboard</p>
+        <h1 id="pin-title">Welcome to HALL</h1>
+        <p class="pin-copy">Enter the staff PIN to continue.</p>
+        <form class="pin-form" id="pin-form">
+          <label for="pin-input">Staff PIN</label>
+          <input id="pin-input" name="pin" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="off" required />
+          <button type="submit">Unlock dashboard</button>
+          <p class="pin-error" id="pin-error" role="alert" aria-live="polite"></p>
+        </form>
+        <p class="pin-note">For internal convenience only. Do not store confidential information on this site.</p>
+      </div>
+    </section>
+
     <main class="dashboard">
       <section class="welcome" aria-labelledby="page-title">
         <div class="welcome-main">

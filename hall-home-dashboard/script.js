@@ -5,6 +5,9 @@
  * ====================================================================
  */
 const HOME_DATA = {
+  // Convenience PIN only. GitHub Pages source is public; never rely on this
+  // to protect passwords, customer information, or confidential records.
+  staffPin: "0401",
   importantDatesCsv:
     "https://docs.google.com/spreadsheets/d/e/2PACX-1vS-F6DOU-RLv9fmvvG48Hutf_g5bdoOY4NMJ4Um55DJrJB9Rog4cPEzAZfmfazQNHUhhG9l3rbyD77i/pub?gid=0&single=true&output=csv",
 
@@ -13,57 +16,68 @@ const HOME_DATA = {
    * Leave url blank until the link is verified. Blank links appear as
    * “Link needed” and cannot be clicked.
    */
+  quickLinkGroups: ["Wine Club Information", "Checklists & SOPs", "Employee System Links"],
   quickLinks: [
-    {
-      name: "Wine Club Dates",
-      description: "Current customization windows, batches, and deadlines.",
-      url: "https://ivelazquez-art.github.io/hall-wine-club-dashboard/",
-    },
     {
       name: "Wine Club Wines",
       description: "Current allocations, selling notes, and technical sheets.",
-      url: "https://sites.google.com/view/hall-vcsh/q3-wines",
+      url: "https://ivelazquez-art.github.io/hall-wine-club-dashboard/current-club-wines/",
+      group: "Wine Club Information",
+    },
+    {
+      name: "Wine Club Important Dates",
+      description: "Current customization windows, batches, and deadlines.",
+      url: "https://ivelazquez-art.github.io/hall-wine-club-dashboard/",
+      group: "Wine Club Information",
     },
     {
       name: "Daily Checklists",
       description: "Open the Microsoft Forms checklist for your assigned area.",
-      url: "https://sites.google.com/view/hall-vcsh/checklists",
+      url: "https://ivelazquez-art.github.io/hall-wine-club-dashboard/checklists-dashboard/",
+      group: "Checklists & SOPs",
     },
     {
-      name: "System Log-Ins",
-      description: "Open the complete employee reference page for system access links.",
-      url: "https://sites.google.com/view/hall-vcsh/system-log-ins",
+      name: "SOPs & Training",
+      description: "Find current procedures, training, and support resources.",
+      url: "https://sites.google.com/view/hall-vcsh/sops",
+      group: "Checklists & SOPs",
+    },
+    {
+      name: "Relay Radios",
+      description: "Open the Relay dashboard for radio communication and device support.",
+      url: "https://dash.relaypro.com/overview",
+      group: "Employee System Links",
+    },
+    {
+      name: "Passwords",
+      description: "Restricted Google document. Sign in with the Hospitality account to open it.",
+      url: "https://docs.google.com/document/d/1rTcusVYtHq4FZlj5iljDfbH8Jd2ABK29flAUttA-fKY/edit?usp=drive_link",
+      group: "Employee System Links",
     },
     {
       name: "Shopify",
       description: "Access online-store tools and order information.",
       url: "https://admin.shopify.com/store/wcynxa-wc",
+      group: "Employee System Links",
     },
     {
       name: "Salesforce",
       description:
         "Access the HALL customer database for key facts, past V360 reservations, and MA communications.",
       url: "https://hallwines.lightning.force.com/lightning/page/home",
+      group: "Employee System Links",
     },
     {
       name: "ShipCompliant",
       description: "Open ShipCompliant for approved shipping and compliance workflows.",
       url: "https://portal.shipcompliant.com",
+      group: "Employee System Links",
     },
     {
       name: "Flip Host Display",
       description: "Open the live host display for seating and guest flow.",
       url: "https://flip-pos-host.fly.dev/ZMWXDE",
-    },
-    {
-      name: "Relay Radio Portal",
-      description: "Open the Relay dashboard for online radio communication and device support.",
-      url: "https://dash.relaypro.com/overview",
-    },
-    {
-      name: "SOPs & Training",
-      description: "Find current procedures, training, and support resources.",
-      url: "https://sites.google.com/view/hall-vcsh/sops",
+      group: "Employee System Links",
     },
   ],
 
@@ -99,6 +113,54 @@ const HOME_DATA = {
 };
 
 const DAY_MS = 24 * 60 * 60 * 1000;
+const INACTIVITY_LIMIT_MS = 2 * 60 * 60 * 1000;
+let inactivityTimer;
+
+function unlockHomepage() {
+  document.body.classList.remove("is-locked");
+  document.querySelector("#pin-lock").setAttribute("hidden", "");
+  scheduleInactivityLock();
+}
+
+function lockHomepage() {
+  window.clearTimeout(inactivityTimer);
+  document.body.classList.add("is-locked");
+  document.querySelector("#pin-lock").removeAttribute("hidden");
+  const input = document.querySelector("#pin-input");
+  input.value = "";
+  document.querySelector("#pin-error").textContent = "The dashboard locked after two hours of inactivity.";
+  input.focus();
+}
+
+function scheduleInactivityLock() {
+  window.clearTimeout(inactivityTimer);
+  inactivityTimer = window.setTimeout(lockHomepage, INACTIVITY_LIMIT_MS);
+}
+
+function initializePinLock() {
+  const form = document.querySelector("#pin-form");
+  const input = document.querySelector("#pin-input");
+  const error = document.querySelector("#pin-error");
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    if (input.value === HOME_DATA.staffPin) {
+      unlockHomepage();
+      return;
+    }
+    error.textContent = "That PIN is not correct. Please try again.";
+    input.value = "";
+    input.focus();
+    form.classList.remove("pin-shake");
+    void form.offsetWidth;
+    form.classList.add("pin-shake");
+  });
+  ["pointerdown", "keydown", "touchstart", "scroll"].forEach((eventName) => {
+    document.addEventListener(eventName, () => {
+      if (!document.body.classList.contains("is-locked")) scheduleInactivityLock();
+    }, { passive: true });
+  });
+  input.focus();
+}
 
 function localDate(isoDate) {
   const [year, month, day] = isoDate.split("-").map(Number);
@@ -244,8 +306,12 @@ function renderPriority(records, today) {
 }
 
 function renderQuickLinks() {
-  document.querySelector("#quick-links").innerHTML = HOME_DATA.quickLinks
-    .map((link, index) => {
+  let linkNumber = 0;
+  document.querySelector("#quick-links").innerHTML = HOME_DATA.quickLinkGroups
+    .map((group) => {
+      const groupLinks = HOME_DATA.quickLinks.filter((link) => link.group === group);
+      const cards = groupLinks.map((link) => {
+      linkNumber += 1;
       const enabled = Boolean(link.url);
       const element = enabled ? "a" : "article";
       const attributes = enabled
@@ -256,12 +322,19 @@ function renderQuickLinks() {
       return `
         <${element} ${classAttribute} ${attributes}>
           <div>
-            <span class="quick-link-number" aria-hidden="true">${String(index + 1).padStart(2, "0")}</span>
+            <span class="quick-link-number" aria-hidden="true">${String(linkNumber).padStart(2, "0")}</span>
             <h3>${link.name}</h3>
             <p>${link.description}</p>
           </div>
           <span class="link-action">${enabled ? "Open resource ↗" : "Link needed"}</span>
         </${element}>
+      `;
+      }).join("");
+      return `
+        <section class="quick-link-group" aria-labelledby="${group.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-title">
+          <h3 class="quick-link-group-title" id="${group.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-title">${group}</h3>
+          <div class="quick-link-row quick-link-row-${groupLinks.length}">${cards}</div>
+        </section>
       `;
     })
     .join("");
@@ -351,4 +424,5 @@ async function loadHomepage() {
   }
 }
 
+initializePinLock();
 loadHomepage();
