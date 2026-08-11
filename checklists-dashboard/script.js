@@ -50,6 +50,7 @@ const CHECKLIST_DATA = {
  * Expected sheet columns: Project, Owner, Due, Priority, Notes, Status
  */
 const SPECIAL_PROJECTS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRBnnk_a4wAoav9c9jyM-Zz553pjYxm5CQ5o5b2N7Vk2TcJP8maogqXRqeQcpoQC-BCWFtzQ82oOEmt/pub?gid=1502314827&single=true&output=csv";
+const SPECIAL_PROJECTS_SHEET_ID = "1iCMmp2yIu3W60Ip3Ifcgf3d5vQNNp5nhpY3matmGRr0";
 const COMPLETION_FORM_URL = "https://forms.cloud.microsoft/r/QzX4wW7Xq0";
 
 const SAMPLE_PROJECTS = [
@@ -148,9 +149,8 @@ async function loadProjects() {
 
 function loadProjectsWithGoogleVisualization() {
   return new Promise((resolve, reject) => {
-    const publishedId = SPECIAL_PROJECTS_CSV_URL.match(/\/d\/e\/([^/]+)/)?.[1];
     const gid = new URL(SPECIAL_PROJECTS_CSV_URL).searchParams.get("gid") || "0";
-    if (!publishedId) { reject(new Error("Invalid published Google Sheet URL")); return; }
+    if (!SPECIAL_PROJECTS_SHEET_ID) { reject(new Error("Missing Google Sheet ID")); return; }
 
     const previousGoogle = window.google;
     const previousVisualization = window.google?.visualization;
@@ -191,7 +191,7 @@ function loadProjectsWithGoogleVisualization() {
       script.remove();
       reject(new Error("Published Google Sheet could not be loaded"));
     };
-    script.src = `https://docs.google.com/spreadsheets/d/e/${publishedId}/gviz/tq?tqx=out:json&gid=${encodeURIComponent(gid)}&cache=${Date.now()}`;
+    script.src = `https://docs.google.com/spreadsheets/d/${SPECIAL_PROJECTS_SHEET_ID}/gviz/tq?tqx=out:json&gid=${encodeURIComponent(gid)}&cache=${Date.now()}`;
     document.head.appendChild(script);
   });
 }
