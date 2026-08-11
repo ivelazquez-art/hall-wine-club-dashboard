@@ -59,6 +59,10 @@ const SAMPLE_PROJECTS = [
 
 let activeDepartment = "All";
 
+if (window.self !== window.top) {
+  document.documentElement.classList.add("is-embedded");
+}
+
 function renderFilters() {
   const names = ["All", ...CHECKLIST_DATA.departments.map((department) => department.name)];
   document.querySelector("#department-filters").innerHTML = names.map((name) => `
