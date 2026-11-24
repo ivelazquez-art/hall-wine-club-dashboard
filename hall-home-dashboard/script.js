@@ -58,15 +58,15 @@ const HOME_DATA = {
   ],
 
   fallbackDates: [
-    { section: "Pick-Up", label: "Pick-Up Window", start: "2026-07-21", end: "2026-08-23", date: "" },
-    { section: "Pick-Up", label: "Pick-Up Batch", start: "", end: "", date: "2026-08-25" },
-    { section: "HALL Shipping", label: "Primary Colors Customization", start: "2026-07-20", end: "2026-08-14", date: "" },
-    { section: "HALL Shipping", label: "Primary Colors Batch", start: "", end: "", date: "2026-08-17" },
-    { section: "HALL Shipping", label: "Collection Customization", start: "2026-07-22", end: "2026-08-17", date: "" },
-    { section: "HALL Shipping", label: "Collection Batch", start: "", end: "", date: "2026-08-19" },
-    { section: "Other Brands", label: "WALT / BACA / Michel Foch Customization", start: "2026-07-27", end: "2026-08-21", date: "" },
-    { section: "Other Brands", label: "WALT / BACA / Michel Foch Batch", start: "", end: "", date: "2026-08-25" },
-    { section: "On-Hold Deadline", label: "On Hold End Date", start: "", end: "", date: "2026-09-15" },
+    { section: "Pick-Up", label: "Pick-Up Window", start: "2026-09-22", end: "2026-11-08", date: "" },
+    { section: "Pick-Up", label: "Pick-Up Batch", start: "", end: "", date: "2026-11-10" },
+    { section: "HALL Shipping", label: "Primary Colors Customization", start: "2026-09-21", end: "2026-10-16", date: "" },
+    { section: "HALL Shipping", label: "Primary Colors Batch", start: "", end: "", date: "2026-10-19" },
+    { section: "HALL Shipping", label: "Collection Customization", start: "2026-09-23", end: "2026-10-19", date: "" },
+    { section: "HALL Shipping", label: "Collection Batch", start: "", end: "", date: "2026-10-21" },
+    { section: "Other Brands", label: "WALT / BACA / Michel Foch Customization", start: "2026-09-28", end: "2026-10-23", date: "" },
+    { section: "Other Brands", label: "WALT / BACA / Michel Foch Batch", start: "", end: "", date: "2026-10-26" },
+    { section: "On-Hold Deadline", label: "On Hold End Date", start: "", end: "", date: "2026-12-31" },
   ],
 
   bunnyMessages: [
