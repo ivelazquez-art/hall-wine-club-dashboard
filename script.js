@@ -18,7 +18,7 @@ const DASHBOARD_DATA = {
     "https://docs.google.com/spreadsheets/d/e/2PACX-1vS-F6DOU-RLv9fmvvG48Hutf_g5bdoOY4NMJ4Um55DJrJB9Rog4cPEzAZfmfazQNHUhhG9l3rbyD77i/pub?gid=0&single=true&output=csv",
   title: "Wine Club Important Dates",
   intro:
-    "A quick view of Q3 customization windows, batches, pick-up timing, and the on-hold deadline.",
+    "A quick view of Q4 customization windows, batches, and pick-up timing.",
   footerNote: "Statuses refresh automatically each day.",
   sections: [
     {
@@ -26,12 +26,12 @@ const DASHBOARD_DATA = {
       items: [
         {
           label: "Pick-Up Window",
-          start: "2026-07-21",
-          end: "2026-08-23",
+          start: "2026-09-22",
+          end: "2026-11-08",
         },
         {
           label: "Pick-Up Batch",
-          date: "2026-08-25",
+          date: "2026-11-10",
         },
       ],
     },
@@ -40,21 +40,21 @@ const DASHBOARD_DATA = {
       items: [
         {
           label: "Primary Colors Customization",
-          start: "2026-07-20",
-          end: "2026-08-14",
+          start: "2026-09-21",
+          end: "2026-10-16",
         },
         {
           label: "Primary Colors Batch",
-          date: "2026-08-17",
+          date: "2026-10-19",
         },
         {
           label: "Collection Customization",
-          start: "2026-07-22",
-          end: "2026-08-17",
+          start: "2026-09-23",
+          end: "2026-10-19",
         },
         {
           label: "Collection Batch",
-          date: "2026-08-19",
+          date: "2026-10-21",
         },
       ],
     },
@@ -63,12 +63,12 @@ const DASHBOARD_DATA = {
       items: [
         {
           label: "WALT / BACA / Michel Foch Customization",
-          start: "2026-07-27",
-          end: "2026-08-21",
+          start: "2026-09-28",
+          end: "2026-10-23",
         },
         {
           label: "WALT / BACA / Michel Foch Batch",
-          date: "2026-08-25",
+          date: "2026-10-26",
         },
       ],
     },
@@ -77,7 +77,7 @@ const DASHBOARD_DATA = {
       items: [
         {
           label: "On Hold End Date",
-          date: "2026-09-15",
+          date: "2026-12-31",
         },
       ],
     },
@@ -194,7 +194,7 @@ function renderNextDate(today) {
     container.innerHTML = `
       <div>
         <p class="next-label">Next Important Date</p>
-        <h2 id="next-date-title">Q3 schedule complete</h2>
+        <h2 id="next-date-title">Current schedule complete</h2>
       </div>
       <p class="next-meta">All listed dates have passed.</p>
     `;
