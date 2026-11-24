@@ -148,3 +148,21 @@ footer p { margin-bottom: 0; }
   .vineyard-obstacle { animation-duration: 3.4s !important; }
   .bunny-player.jumping { animation-duration: 900ms; }
 }
+
+/* Mobile navigation stays visible below Google Sites' own header. */
+@media (max-width: 760px) {
+  body { padding-bottom: calc(58px + env(safe-area-inset-bottom)); }
+  .portal-header { position: fixed; top: auto; right: 0; bottom: 0; left: 0; display: block; min-height: 58px; padding: 0 0 env(safe-area-inset-bottom); border-top: 1px solid #d8ccc6; border-bottom: 0; box-shadow: 0 -8px 24px rgba(44,32,24,.12); }
+  .portal-brand { display: none; }
+  .portal-menu { display: grid; grid-template-columns: repeat(7,minmax(0,1fr)); min-height: 58px; padding: 0; overflow: visible; }
+  .portal-menu a { justify-content: center; padding: 8px 2px 6px; font-size: 0; line-height: 1.05; text-align: center; white-space: normal; }
+  .portal-menu a::before { font-size: .57rem; }
+  .portal-menu a:nth-child(1)::before { content: "Home"; }
+  .portal-menu a:nth-child(2)::before { content: "Checklists"; }
+  .portal-menu a:nth-child(3)::before { content: "Dates"; }
+  .portal-menu a:nth-child(4)::before { content: "Wines"; }
+  .portal-menu a:nth-child(5)::before { content: "Culinary"; }
+  .portal-menu a:nth-child(6)::before { content: "Pours"; }
+  .portal-menu a:nth-child(7)::before { content: "SOPs"; }
+  .portal-menu a::after { right: 7px; bottom: auto; left: 7px; top: 0; height: 4px; }
+}
