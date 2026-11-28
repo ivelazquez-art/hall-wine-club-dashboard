@@ -134,6 +134,7 @@ function csvToItems(text) {
       active: record.active,
       order: Number(record.display_order) || 999,
       updated: record.last_updated,
+      weekOf: record.week_of,
     };
   }).filter((item) => item.section && item.name && /^(yes|true|1|active)$/i.test(item.active));
 }
@@ -186,26 +187,71 @@ function renderNavigation() {
     .join("");
 }
 
+const pacificCalendar = new Intl.DateTimeFormat("en-US", {
+  timeZone: "America/Los_Angeles",
+  year: "numeric",
+  month: "numeric",
+  day: "numeric",
+});
+const dayMs = 86400000;
+
+function mondayInPacific(now) {
+  const parts = Object.fromEntries(pacificCalendar.formatToParts(now)
+    .map(({ type, value }) => [type, Number(value)]));
+  const date = new Date(Date.UTC(parts.year, parts.month - 1, parts.day));
+  return date.getTime() - ((date.getUTCDay() + 6) % 7) * dayMs;
+}
+
+function weekStart(value = "") {
+  const iso = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
+  const us = /^(\d{1,2})\/(\d{1,2})\/(\d{2}|\d{4})$/.exec(value);
+  if (!iso && !us) return null;
+  const [yearText, month, day] = iso
+    ? iso.slice(1).map(Number)
+    : [Number(us[3]), Number(us[1]), Number(us[2])];
+  const year = us && us[3].length === 2 ? 2000 + yearText : yearText;
+  const time = Date.UTC(year, month - 1, day);
+  const date = new Date(time);
+  if (date.getUTCFullYear() !== year || date.getUTCMonth() !== month - 1
+    || date.getUTCDate() !== day || date.getUTCDay() !== 1) return null;
+  return time;
+}
+
+function weeklyPizzas(items, now = new Date()) {
+  const pizzas = items.filter((item) => item.section === "Pizza of the Week")
+    .sort((a, b) => a.order - b.order);
+  const schedule = pizzas.map((item) => ({ item, week: weekStart(item.weekOf) }));
+  const thisMonday = mondayInPacific(now);
+  const pizza = schedule.find(({ week }) => week === thisMonday)?.item;
+  const next = schedule.find(({ week }) => week === thisMonday + 7 * dayMs)?.item;
+  // Carry the original undated pizza until the first scheduled week arrives.
+  const legacy = schedule.some(({ week }) => week !== null && week <= thisMonday)
+    ? undefined
+    : pizzas.find((item) => !item.weekOf);
+  return { pizza: pizza ?? legacy, next };
+}
+
 function renderPizzaFeature(items) {
-  const pizza = items
-    .filter((item) => item.section === "Pizza of the Week")
-    .sort((a, b) => a.order - b.order)[0];
+  const { pizza, next } = weeklyPizzas(items);
   const feature = document.querySelector("#pizza-of-the-week");
-  if (!pizza) {
-    feature.hidden = true;
-    return;
-  }
+  const nextWeek = `
+    <div class="featured-panel">
+      <h2>Next Week’s Pizza</h2>
+      ${next ? recipeCard(next) : "<p>To be announced</p>"}
+    </div>`;
 
   feature.hidden = false;
   feature.innerHTML = `
-    <p class="eyebrow">Pizza of the Week</p>
-    <h2>${escapeHtml(pizza.name)}</h2>
+    <p class="eyebrow">This Week’s Pizza</p>
+    <h2>${pizza ? escapeHtml(pizza.name) : "To be announced"}</h2>
+    ${pizza ? `
     ${pizza.subtitle ? `<p class="featured-subtitle">${escapeHtml(pizza.subtitle)}</p>` : ""}
     <div class="featured-grid">
       <div class="featured-panel"><span class="content-label">Ingredients</span>${ingredientMarkup(pizza.ingredients)}</div>
       <div class="featured-panel"><span class="content-label">Preparation</span><p>${escapeHtml(pizza.preparation || "Preparation has not been added yet.").replaceAll("\n", "<br>")}</p></div>
       <div class="featured-panel"><span class="content-label">Pairing &amp; service notes</span><p>${escapeHtml(pizza.notes || "No additional notes.").replaceAll("\n", "<br>")}</p></div>
-    </div>`;
+    </div>` : ""}
+    ${nextWeek}`;
 }
 
 function renderSections(items) {
